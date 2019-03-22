@@ -11,7 +11,7 @@ var User = mongoose.model('user', new mongoose.Schema({userName: String, email: 
 var RaspberryPi = mongoose.model('raspberry_pi', new mongoose.Schema({userName: String, piName: String, address: String}));
 
 //attempt connection to mongo atlas DB
-mongoose.connect('mongodb+srv://pi-lit-db-user:zPFG4EIFs8M59ShH@cis-db-fxsbk.mongodb.net/Pi-Lit?retryWrites=true', {useNewUrlParser: true})
+mongoose.connect('mongodb+srv://pi-lit-db-user:EBQ0fF6WUD9TLQjM@cis-db-fxsbk.mongodb.net/Pi-Lit?retryWrites=true', {useNewUrlParser: true})
 //resolve promise
 .then(
     () => {
