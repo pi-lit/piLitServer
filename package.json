@@ -2,6 +2,9 @@
   "name": "pi-lit-server",
   "version": "0.0.1",
   "description": "Pi-Lit Server",
+  "scripts": {
+      "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.15.2",
     "socket.io": "^2.1.1",
