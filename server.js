@@ -3,6 +3,7 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
+var path = require('path');
 var io = require('socket.io')(http);
 var ioClient = require('socket.io-client');
 
@@ -26,6 +27,8 @@ mongoose.connect('mongodb+srv://pi-lit-db-user:EBQ0fF6WUD9TLQjM@cis-db-fxsbk.mon
     }
 )
 
+app.use('/', express.static(path.join(__dirname, 'public')));
+
 io.on('connection', function(socket) {
 	console.log('connection open');
 
@@ -40,8 +43,8 @@ io.on('connection', function(socket) {
 	});
 });
 
-http.listen(3000, function() {
-	console.log('listening on *:3000');
+http.listen(8080, function() {
+	console.log('listening on *:8080');
 });
 
 function register(req, socket) {
