@@ -53,8 +53,9 @@ io.on('connection', function(socket) {
     }, 15000);
 });
 
-http.listen(8080, function() {
+http.listen(process.env.PORT, process.env.IP, function() {
 	console.log('listening on *:8080');
+
 });
 
 function register(req, socket) {
