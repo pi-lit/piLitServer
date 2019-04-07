@@ -1,6 +1,6 @@
 {
   "name": "pi-lit-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pi-Lit Central Server",
   "scripts": {
       "start": "node server.js"
