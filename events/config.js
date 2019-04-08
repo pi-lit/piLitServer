@@ -118,7 +118,7 @@ function deleteConfig(req, socket) {
 
 function forwardCommand(req, socket) {
     console.log(req.command);
-    //ioClient.connect('http://localhost:4000').emit('command', req.command);
+    ioClient.connect('http://localhost:4000').emit('command', req.command);
 }
 
 module.exports = {
