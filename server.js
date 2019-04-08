@@ -34,7 +34,7 @@ io.on('connection', function(socket) {
 
 function forwardCommand(req, socket) {
     console.log(req);
-    ioClient.connect('http://localhost:4000').emit('command', req.command);
+    //ioClient.connect('http://localhost:4000').emit('command', req.command);
 }
 
 http.listen(process.env.PORT, process.env.IP, function() {
