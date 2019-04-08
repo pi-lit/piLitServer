@@ -18,7 +18,6 @@ io.on('connection', function(socket) {
     socket.on('loginPi', (req)=>{piEvents.login(req, socket)});
     socket.on('login', (req)=>{userEvents.login(req, socket)});
     socket.on('saveConfig', (req)=>{configEvents.saveConfig(req, socket)});
-    socket.on('forwardCommand', forwardCommand(req, socket));
 
     socket.on('disconnect', function(req) {
         console.log("disconnected");
@@ -31,11 +30,6 @@ io.on('connection', function(socket) {
         }
     }, 15000);
 });
-
-function forwardCommand(req, socket) {
-    console.log(req);
-    //ioClient.connect('http://localhost:4000').emit('command', req.command);
-}
 
 http.listen(process.env.PORT, process.env.IP, function() {
 	console.log('listening on '+ process.env.IP+":"+process.env.PORT);
