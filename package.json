@@ -1,14 +1,13 @@
 {
   "name": "pi-lit-server",
-  "version": "0.0.1",
-  "description": "Pi-Lit Server",
+  "version": "0.1.0",
+  "description": "Pi-Lit Central Server",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.15.2",
     "socket.io": "^2.1.1",
-    "ws": "^6.1.4",
     "mongoose": "^5.4.19"
   }
 }
