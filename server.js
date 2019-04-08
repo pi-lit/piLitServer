@@ -37,6 +37,6 @@ function forwardCommand(req, socket) {
     ioClient.connect('http://localhost:4000').emit('command', req.command);
 }
 
-http.listen(5000, function() {
+http.listen(process.env.PORT, process.env.IP, function() {
 	console.log('listening on '+ process.env.IP+":"+process.env.PORT);
 });
