@@ -32,5 +32,5 @@ io.on('connection', function(socket) {
 });
 
 http.listen(5000, function() {
-	console.log('listening on '+ process.env.IP+":"+process.env.PORT);
+	console.log('listening on port 5000');
 });
