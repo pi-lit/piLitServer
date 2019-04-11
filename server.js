@@ -11,6 +11,8 @@ var piEvents = require('./events/pi.js');
 var userEvents = require('./events/user.js');
 var configEvents = require('./events/config.js');
 
+var maps = require('./events/maps.js');
+
 io.on('connection', function(socket) {
 	console.log('connection open');
 
@@ -27,15 +29,8 @@ io.on('connection', function(socket) {
 		if(socket.pi)
 			maps.pi.delete(socket.pi.userName+":"+socket.pi.piName);
     });
-
-    setTimeout(function() {
-        if(socket.user == undefined && socket.pi == undefined) {
-            console.log("connection did not authenticate");
-            socket.disconnect();
-        }
-    }, 15000);
 });
 
 http.listen(process.env.PORT, process.env.IP, function() {
-	console.log('listening on '+ process.env.IP+":"+process.env.PORT);
+	console.log('listening');
 });
