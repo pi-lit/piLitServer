@@ -8,6 +8,7 @@ var io = require('socket.io')(http);
 
 var piEvents = require('./events/pi.js');
 var userEvents = require('./events/user.js');
+var maps = require('./events/maps.js');
 
 io.on('connection', function(socket) {
 	console.log('connection open');
@@ -18,6 +19,12 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function(req) {
         console.log("disconnected");
+
+		if(socket.user)
+			maps.user.delete(socket.user.userName);
+
+		if(socket.pi)
+			maps.pi.delete(socket.pi.userName+":"+socket.pi.piName);
     });
 
     setTimeout(function() {

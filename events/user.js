@@ -1,11 +1,7 @@
 var models = require('../database/models.js');
 var configEvents = require('./config.js');
 var piEvents = require('./pi.js');
-
-module.exports = {
-    register,
-    login
-};
+var maps = require('./maps.js');
 
 function register(req, socket) {
 	var res = {error: ""};
@@ -72,15 +68,28 @@ function login(req, socket) {
                 if(err) res.error = "internal database error";
                 else res.piList = piList;
 
+				maps.user.set(res.userName, socket);
                 socket.user = res;
+
                 socket.on('getPublicConfigs', (req)=>{configEvents.getPublicConfigs(req, socket)});
                 socket.on('savePublicConfig', (req)=>{configEvents.savePublicConfig(req, socket)});
                 socket.on('saveConfig', (req)=>{configEvents.saveConfig(req, socket)});
                 socket.on('deleteConfig', (req)=>{configEvents.deleteConfig(req, socket)});
-                socket.on('command', (req)=>{piEvents.requestConnection(req, socket)});
+                socket.on('command', (req)=>{forwardCommand(req, socket)});
 
                 socket.emit('login', res);
             });
         });
     });
 }
+
+function forwardCommand(req, socket) {
+    var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
+
+    piSocket.emit('command', req);
+}
+
+module.exports = {
+    register,
+    login
+};
