@@ -5,10 +5,11 @@ var app = express();
 var http = require('http').Server(app);
 var path = require('path');
 var io = require('socket.io')(http);
+var ioClient = require('socket.io-client');
 
 var piEvents = require('./events/pi.js');
 var userEvents = require('./events/user.js');
-var maps = require('./events/maps.js');
+var configEvents = require('./events/config.js');
 
 io.on('connection', function(socket) {
 	console.log('connection open');

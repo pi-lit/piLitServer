@@ -56,9 +56,9 @@ function savePublicConfig(req, socket) {
 function saveConfig(req, socket) {
     var res = {error: ""};
 
-    console.log("Save config: "+ req.configName);
+    console.log("Save config: "+ req);
 
-    if(!req.userName || !req.configName || req.userName != socket.user.userName) {
+    if(!req.userName || !req.configName /**|| req.userName != socket.user.userName*/) {
         res.error = "invalid request";
         socket.emit('saveConfig', res);
         return;
@@ -82,11 +82,9 @@ function saveConfig(req, socket) {
         else
             newConfig = new models.Config(req);
 
-        console.log(newConfig);
-
     	newConfig.save(function(err){
     		if(err) res.error = "internal database error";
-
+            console.log("New Config saved");
             socket.emit('saveConfig', newConfig);
     	});
     });

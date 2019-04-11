@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Pi-Lit Central Server",
   "scripts": {
-      "start": "node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.15.2",
