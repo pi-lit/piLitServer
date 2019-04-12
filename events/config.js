@@ -23,7 +23,7 @@ function savePublicConfig(req, socket) {
 
     console.log("Save public config: "+ req.configName);
 
-    if(!req.userName || !req.configName) {
+    if(!req || !req.userName || !req.configName) {
         res.error = "invalid request";
         socket.emit('savePublicConfig', res);
         return;
@@ -58,7 +58,7 @@ function saveConfig(req, socket) {
 
     console.log("Save config: "+ req);
 
-    if(!req.userName || !req.configName /**|| req.userName != socket.user.userName*/) {
+    if(!req || !req.userName || !req.configName /**|| req.userName != socket.user.userName*/) {
         res.error = "invalid request";
         socket.emit('saveConfig', res);
         return;
@@ -95,7 +95,7 @@ function deleteConfig(req, socket) {
 
     console.log("Delete config: "+ req.configName);
 
-    if(!req.userName || !req.configName || socket.user.userName != req.userName) {
+    if(!req || !req.userName || !req.configName || socket.user.userName != req.userName) {
         res.error = "invalid request";
         socket.emit('deleteConfig', res);
         return;

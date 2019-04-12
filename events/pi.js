@@ -6,7 +6,7 @@ function login(req, socket) {
 
     console.log("Login pi: "+ req.piName);
 
-    if(!req.userName || !req.piName || !req.password) {
+    if(!req || !req.userName || !req.piName || !req.password) {
         res.error = "username, device name, and password are required";
         socket.emit('loginPi', res);
         return;
@@ -32,6 +32,15 @@ function login(req, socket) {
 }
 
 function forwardResponse(res, socket) {
+
+    var errorRes = {};
+
+    if(!res || !res.pi || !res.pi.userName || !res.pi.piName || res.pi.userName != socket.pi.userName) {
+		errorRes.error = "invalid response from device";
+		socket.emit('command', errorRes);
+		return;
+	}
+
     var clientSocket = maps.user.get(res.pi.userName);
 
     clientSocket.emit('command', res);

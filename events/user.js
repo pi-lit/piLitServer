@@ -8,7 +8,7 @@ function register(req, socket) {
 
 	console.log("register event: "+req.userName);
 
-	if(!req.userName || !req.password || !req.email) {
+	if(!req || !req.userName || !req.password || !req.email) {
 		res.error = "username, email, and password are required";
 		socket.emit('register', res);
 		return;
@@ -40,7 +40,7 @@ function login(req, socket) {
 
     console.log("login event: "+req.userName);
 
-    if(!req.userName || !req.password) {
+    if(!req || !req.userName || !req.password) {
         res.error = "username and password are required";
         socket.emit('login', res);
         return;
@@ -84,6 +84,14 @@ function login(req, socket) {
 }
 
 function forwardCommand(req, socket) {
+	var res = {};
+
+	if(!req || !req.pi || !req.pi.userName || !req.pi.piName || req.pi.userName != socket.user.userName) {
+		res.error = "invalid request";
+		socket.emit('command', res);
+		return;
+	}
+
     var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
 
     piSocket.emit('command', req);
