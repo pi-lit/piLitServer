@@ -16,17 +16,19 @@ var User = mongoose.model('user', new mongoose.Schema({
     userName: String,
     password: String,
     email: String,
+    name: String
 }));
 
 var RaspberryPi = mongoose.model('raspberry_pi', new mongoose.Schema({
     userName: String,
     piName: String,
-    address: String
+    description: String
 }));
 
 var Config = mongoose.model('config', new mongoose.Schema({
     userName: String,
     configName: String,
+    description: String,
     isPublic: Boolean,
     rpArray: []
 }));

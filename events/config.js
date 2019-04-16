@@ -1,4 +1,5 @@
 var models = require('../database/models.js');
+var mongoose = require('mongoose');
 
 function getPublicConfigs(req, socket) {
     var res = {error: ""};
@@ -23,26 +24,29 @@ function savePublicConfig(req, socket) {
 
     console.log("Save public config: "+ req.configName);
 
-    if(!req || !req.userName || !req.configName) {
+    if(!req || !req._id) {
         res.error = "invalid request";
         socket.emit('savePublicConfig', res);
         return;
     }
 
-    models.Config.findOne({userName: req.userName, configName: req.configName}, function(err, config) {
+    models.Config.findById(req._id, function(err, config) {
         if(err) res.error = "internal database error";
         else if(!config || !config.isPublic) res.error = "config does not exist";
-        else if(config.userName == socket.user.userName) res.error = "config is already owned";
 
         if(res.error) {
             socket.emit('savePublicConfig', res);
             return;
         }
 
-        newConfig = new models.Config(config);
+        var newConfig = new models.Config(req);
+        newConfig._id = new mongoose.Types.ObjectId();
+        newConfig.isNew = true;
+
         newConfig.userName = socket.user.userName;
         newConfig.configName = config.configName+" ("+config.userName+")";
         newConfig.isPublic = false;
+
         console.log(newConfig);
 
     	newConfig.save(function(err){
@@ -53,57 +57,19 @@ function savePublicConfig(req, socket) {
     });
 }
 
-function saveConfig(req, socket) {
-    var res = {error: ""};
-
-    console.log("Save config: "+ req);
-
-    if(!req || !req.userName || !req.configName /**|| req.userName != socket.user.userName*/) {
-        res.error = "invalid request";
-        socket.emit('saveConfig', res);
-        return;
-    }
-
-    models.Config.findOne({userName: req.userName, configName: req.configName}, function(err, config) {
-        if(err) res.error = "internal database error";
-        else if(config) res.error = "config already exists";
-
-        if(res.error) {
-            socket.emit('saveConfig', res);
-            return;
-        }
-
-        var newConfig = {};
-
-        if(config) {
-            newConfig = config;
-            Object.assign(newConfig._doc, req);
-        }
-        else
-            newConfig = new models.Config(req);
-
-    	newConfig.save(function(err){
-    		if(err) res.error = "internal database error";
-            console.log("New Config saved");
-            socket.emit('saveConfig', newConfig);
-    	});
-    });
-}
-
 function deleteConfig(req, socket) {
     var res = {error: ""};
 
     console.log("Delete config: "+ req.configName);
 
-    if(!req || !req.userName || !req.configName || socket.user.userName != req.userName) {
+    if(!req || !req._id || req.userName != socket.user.userName) {
         res.error = "invalid request";
         socket.emit('deleteConfig', res);
         return;
     }
 
-    models.Config.deleteOne({userName: req.userName, configName: req.configName}, function(err) {
+    models.Config.deleteOne({_id: req._id, userName: req.userName}, function(err) {
         if(err) res.error = "internal database error";
-        //else if(config) res.error = "config already exists";
 
         if(res.error) {
             socket.emit('deleteConfig', res);
@@ -113,6 +79,30 @@ function deleteConfig(req, socket) {
         res = req;
         res.error = "";
         socket.emit('deleteConfig', res);
+    });
+}
+
+function saveConfig(req, socket) {
+    var res = {error: ""};
+
+    console.log("Save config: "+ req);
+
+    if(!req || !req.userName || !req.configName || req.userName != socket.user.userName) {
+        res.error = "invalid request";
+        socket.emit('saveConfig', res);
+        return;
+    }
+
+    var config = new models.Config(req);
+    //config._id = new mongoose.Types.ObjectId();
+    //config.markModified('isPublic');
+
+    models.Config.findOneAndUpdate({_id: config._id}, config, {new: true, upsert: true}, function(err, newConfig) {
+        if(err) res.error = "internal database error";
+
+        console.log("config saved");
+
+        socket.emit('saveConfig', newConfig);
     });
 }
 
