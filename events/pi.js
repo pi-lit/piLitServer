@@ -47,5 +47,6 @@ function forwardResponse(res, socket) {
 }
 
 module.exports = {
-    login
+    login,
+    forwardResponse
 };
