@@ -19,8 +19,6 @@ io.on('connection', function(socket) {
     socket.on('register', (req)=>{userEvents.register(req, socket)});
     socket.on('loginPi', (req)=>{piEvents.login(req, socket)});
     socket.on('login', (req)=>{userEvents.login(req, socket)});
-    socket.on('command', (req)=>{piEvents.forwardResponse(req, socket)});
-    socket.on('saveconfig', (req)=>{configEvents.saveConfig(req, socket)});
 
     socket.on('disconnect', function(req) {
         console.log("disconnected");
@@ -33,4 +31,4 @@ io.on('connection', function(socket) {
     });
 });
 
-http.listen(8080); //process.env.PORT, process.env.IP);
+http.listen(8080);//process.env.PORT, process.env.IP);
