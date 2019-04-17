@@ -4,7 +4,8 @@ var maps = require('./maps.js');
 function login(req, socket) {
     var res = {error: ""};
 
-    console.log("Login pi: "+ req.piName);
+    console.log("Login pi: ");
+    console.log(req);
 
     if(!req || !req.userName || !req.piName || !req.password) {
         res.error = "username, device name, and password are required";
@@ -35,6 +36,8 @@ function forwardResponse(res, socket) {
 
     var errorRes = {};
 
+    console.log("forward response: ");
+    console.log(res);
     if(!res) {
 		errorRes.error = "no object was sent";
 		socket.emit('command', errorRes);
@@ -59,7 +62,16 @@ function forwardResponse(res, socket) {
 
     var clientSocket = maps.user.get(res.pi.userName);
 
-    clientSocket.emit('command', res);
+    if(!clientSocket) {
+        //Drop invalid response (undeliverable)
+        console.log('invalid response: missing client: ');
+        console.log(res);
+		return;
+    }
+
+    res.config.error = res.error;
+
+    clientSocket.emit('command', res.config);
 }
 
 module.exports = {

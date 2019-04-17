@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 function getPublicConfigs(req, socket) {
     var res = {error: ""};
 
-    console.log("Get public config: ");
+    console.log("Get public config event: ");
 
     models.Config.find({isPublic: true}, function(err, publicConfigs) {
         if(err) res.error = "internal database error";
@@ -22,7 +22,8 @@ function getPublicConfigs(req, socket) {
 function savePublicConfig(req, socket) {
     var res = {error: ""};
 
-    console.log("Save public config: "+ req.configName);
+    console.log("Save public config event: ");
+    console.log(req);
 
     if(!req || !req._id) {
         res.error = "invalid request";
@@ -60,7 +61,8 @@ function savePublicConfig(req, socket) {
 function deleteConfig(req, socket) {
     var res = {error: ""};
 
-    console.log("Delete config: "+ req.configName);
+    console.log("Delete config event: ");
+    console.log(req);
 
     if(!req || !req._id || req.userName != socket.user.userName) {
         res.error = "invalid request";
@@ -85,7 +87,8 @@ function deleteConfig(req, socket) {
 function saveConfig(req, socket) {
     var res = {error: ""};
 
-    console.log("Save config: "+ req);
+    console.log("Save config event: ");
+    console.log(req);
 
     if(!req || !req.userName || !req.configName || req.userName != socket.user.userName) {
         res.error = "invalid request";
@@ -94,8 +97,6 @@ function saveConfig(req, socket) {
     }
 
     var config = new models.Config(req);
-    //config._id = new mongoose.Types.ObjectId();
-    //config.markModified('isPublic');
 
     models.Config.findOneAndUpdate({_id: config._id}, config, {new: true, upsert: true}, function(err, newConfig) {
         if(err) res.error = "internal database error";

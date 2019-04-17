@@ -6,7 +6,8 @@ var maps = require('./maps.js');
 function register(req, socket) {
 	var res = {error: ""};
 
-	console.log("register event: "+req.userName);
+	console.log("register event: ");
+	console.log(req);
 
 	if(!req || !req.userName || !req.password || !req.email) {
 		res.error = "username, email, and password are required";
@@ -38,7 +39,8 @@ function register(req, socket) {
 function login(req, socket) {
     var res = {error: ""};
 
-    console.log("login event: "+req.userName);
+	console.log("login event: ");
+	console.log(req);
 
     if(!req || !req.userName || !req.password) {
         res.error = "username and password are required";
@@ -86,6 +88,9 @@ function login(req, socket) {
 function forwardCommand(req, socket) {
 	var res = {};
 
+	console.log('forward command:');
+	console.log(req);
+
 	if(!req || !req.pi || !req.pi.userName || !req.pi.piName || req.pi.userName != socket.user.userName) {
 		res.error = "invalid request";
 		socket.emit('command', res);
@@ -94,7 +99,13 @@ function forwardCommand(req, socket) {
 
     var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
 
-    piSocket.emit('command', req);
+	if(!piSocket) {
+		res.error = "device is not available";
+		socket.emit('command', res);
+		return;
+	}
+
+	piSocket.emit('command', req);
 }
 
 module.exports = {
