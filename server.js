@@ -13,6 +13,8 @@ var configEvents = require('./events/config.js');
 
 var maps = require('./events/maps.js');
 
+app.use('/', express.static(path.join(__dirname, 'public')));
+
 io.on('connection', function(socket) {
 	console.log('connection open');
 
@@ -31,4 +33,5 @@ io.on('connection', function(socket) {
     });
 });
 
-http.listen(process.env.PORT, process.env.IP);
+http.listen(8080);
+//http.listen(process.env.PORT, process.env.IP);

@@ -6,13 +6,14 @@ var maps = require('./maps.js');
 function register(req, socket) {
 	var res = {error: ""};
 
-	console.log("register event: "+req.userName);
-
 	if(!req || !req.userName || !req.password || !req.email) {
 		res.error = "username, email, and password are required";
 		socket.emit('register', res);
 		return;
 	}
+
+	console.log("register event: ");
+	console.log(req);
 
     models.User.findOne({userName: req.userName}, function(err, user) {
         if(err) res.error = "internal database error";
@@ -38,13 +39,14 @@ function register(req, socket) {
 function login(req, socket) {
     var res = {error: ""};
 
-    console.log("login event: "+req.userName);
-
     if(!req || !req.userName || !req.password) {
         res.error = "username and password are required";
         socket.emit('login', res);
         return;
     }
+
+	console.log("login event: ");
+	console.log(req);
 
     models.User.findOne(req, function(err, user) {
         if(err) res.error = "internal database error";
@@ -92,9 +94,18 @@ function forwardCommand(req, socket) {
 		return;
 	}
 
+	console.log('forward command:');
+	console.log(req);
+
     var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
 
-    piSocket.emit('command', req);
+	if(!piSocket) {
+		res.error = "device is not available";
+		socket.emit('command', res);
+		return;
+	}
+
+	piSocket.emit('command', req);
 }
 
 module.exports = {
