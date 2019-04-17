@@ -91,6 +91,7 @@ function forwardCommand(req, socket) {
 	console.log('forward command:');
 	console.log(req);
 
+    //Error messages
 	if(!res) {
         errorRes.error = "no object was sent";
         socket.emit('command', errorRes);
