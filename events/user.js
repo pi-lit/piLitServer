@@ -6,14 +6,14 @@ var maps = require('./maps.js');
 function register(req, socket) {
 	var res = {error: ""};
 
+	console.log("register event: ");
+	console.log(req);
+
 	if(!req || !req.userName || !req.password || !req.email) {
 		res.error = "username, email, and password are required";
 		socket.emit('register', res);
 		return;
 	}
-
-	console.log("register event: ");
-	console.log(req);
 
     models.User.findOne({userName: req.userName}, function(err, user) {
         if(err) res.error = "internal database error";
@@ -39,14 +39,14 @@ function register(req, socket) {
 function login(req, socket) {
     var res = {error: ""};
 
+	console.log("login event: ");
+	console.log(req);
+
     if(!req || !req.userName || !req.password) {
         res.error = "username and password are required";
         socket.emit('login', res);
         return;
     }
-
-	console.log("login event: ");
-	console.log(req);
 
     models.User.findOne(req, function(err, user) {
         if(err) res.error = "internal database error";
@@ -88,14 +88,14 @@ function login(req, socket) {
 function forwardCommand(req, socket) {
 	var res = {};
 
+	console.log('forward command:');
+	console.log(req);
+
 	if(!req || !req.pi || !req.pi.userName || !req.pi.piName || req.pi.userName != socket.user.userName) {
 		res.error = "invalid request";
 		socket.emit('command', res);
 		return;
 	}
-
-	console.log('forward command:');
-	console.log(req);
 
     var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
 

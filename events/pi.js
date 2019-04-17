@@ -4,14 +4,14 @@ var maps = require('./maps.js');
 function login(req, socket) {
     var res = {error: ""};
 
+    console.log("Login pi: ");
+    console.log(req);
+
     if(!req || !req.userName || !req.piName || !req.password) {
         res.error = "username, device name, and password are required";
         socket.emit('loginPi', res);
         return;
     }
-
-    console.log("Login pi: ");
-    console.log(req);
 
     models.RaspberryPi.findOne({userName: req.userName, piName: req.piName, password: req.password}, function(err, pi) {
         if(err) res.error = "internal database error";
@@ -36,15 +36,15 @@ function forwardResponse(res, socket) {
 
     var errorRes = {};
 
+    console.log("forward response: ");
+    console.log(res);
+
     if(!res || !res.pi || !res.pi.userName || !res.pi.piName || res.pi.userName != socket.pi.userName) {
         //Drop invalid response (undeliverable)
         console.log('invalid response:');
         console.log(res);
 		return;
 	}
-
-    console.log("forward response: ");
-    console.log(res);
 
     var clientSocket = maps.user.get(res.pi.userName);
 
