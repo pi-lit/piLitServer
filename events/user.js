@@ -72,7 +72,7 @@ function login(req, socket) {
 
 				maps.user.set(res.userName, socket);
                 socket.user = res;
-                console.log(socket);
+                console.log(socket.user.userName);
 
                 socket.on('getPublicConfigs', (req)=>{configEvents.getPublicConfigs(req, socket)});
                 socket.on('savePublicConfig', (req)=>{configEvents.savePublicConfig(req, socket)});
@@ -91,7 +91,6 @@ function forwardCommand(req, socket) {
 
 	console.log('forward command:');
 	console.log(req);
-    console.log(socket);
 
     //forward command error messages
 	if(!req) {
@@ -114,12 +113,12 @@ function forwardCommand(req, socket) {
         console.log(res.error);
         socket.emit('command', res);
         return;
-    } /*else if(req.pi.userName != socket.pi.userName) {
+    } else if(req.pi.userName != socket.user.userName) {
         res.error = "sent and socket usernames do not match";
         console.log(res.error);
         socket.emit('command', res);
         return;
-    }*/
+    }
 
     var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
 
