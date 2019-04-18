@@ -72,6 +72,7 @@ function login(req, socket) {
 
 				maps.user.set(res.userName, socket);
                 socket.user = res;
+                console.log(socket);
 
                 socket.on('getPublicConfigs', (req)=>{configEvents.getPublicConfigs(req, socket)});
                 socket.on('savePublicConfig', (req)=>{configEvents.savePublicConfig(req, socket)});
