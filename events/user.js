@@ -96,10 +96,6 @@ function forwardCommand(req, socket) {
         errorRes.error = "no object was sent";
         socket.emit('command', errorRes);
         return;
-    } else if(res.pi.userName != socket.pi.userName) {
-        errorRes.error = "sent and socket usernames do not match";
-        socket.emit('command', errorRes);
-        return;
     } else if(!res.pi) {
         errorRes.error = "no pi object";
         socket.emit('command', errorRes);
@@ -110,6 +106,10 @@ function forwardCommand(req, socket) {
         return;
     } else if(!res.pi.piName) {
         errorRes.error = "no piName in the pi object";
+        socket.emit('command', errorRes);
+        return;
+    } else if(res.pi.userName != socket.pi.userName) {
+        errorRes.error = "sent and socket usernames do not match";
         socket.emit('command', errorRes);
         return;
     }
