@@ -92,24 +92,29 @@ function forwardCommand(req, socket) {
 	console.log(req);
 
     //forward command error messages
-	if(!res) {
+	if(!req) {
         res.error = "no object was sent";
+        console.log(res.error);
         socket.emit('command', res);
         return;
-    } else if(!res.pi) {
+    } else if(!req.pi) {
         res.error = "no pi object";
+        console.log(res.error);
         socket.emit('command', res);
         return;
-    } else if(!res.pi.userName) {
+    } else if(!req.pi.userName) {
         res.error = "no username in the pi object";
+        console.log(res.error);
         socket.emit('command', res);
         return;
-    } else if(!res.pi.piName) {
+    } else if(!req.pi.piName) {
         res.error = "no piName in the pi object";
+        console.log(res.error);
         socket.emit('command', res);
         return;
-    } else if(res.pi.userName != socket.pi.userName) {
+    } else if(req.pi.userName != socket.pi.userName) {
         res.error = "sent and socket usernames do not match";
+        console.log(res.error);
         socket.emit('command', res);
         return;
     }
