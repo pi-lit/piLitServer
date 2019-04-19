@@ -38,13 +38,27 @@ function forwardResponse(res, socket) {
 
     console.log("forward response: ");
     console.log(res);
-
-    if(!res || !res.pi || !res.pi.userName || !res.pi.piName || res.pi.userName != socket.pi.userName) {
-        //Drop invalid response (undeliverable)
-        console.log('invalid response:');
-        console.log(res);
+    if(!res) {
+		errorRes.error = "no object was sent";
+		socket.emit('command', errorRes);
 		return;
-	}
+	} else if(res.pi.userName != socket.pi.userName) {
+        errorRes.error = "sent and socket usernames do not match";
+        socket.emit('command', errorRes);
+        return;
+    } else if(!res.pi) {
+        errorRes.error = "no pi object";
+        socket.emit('command', errorRes);
+        return;
+    } else if(!res.pi.userName) {
+        errorRes.error = "no username in the pi object";
+        socket.emit('command', errorRes);
+        return;
+    } else if(!res.pi.piName) {
+        errorRes.error = "no piName in the pi object";
+        socket.emit('command', errorRes);
+        return;
+    }
 
     var clientSocket = maps.user.get(res.pi.userName);
 

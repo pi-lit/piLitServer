@@ -72,6 +72,7 @@ function login(req, socket) {
 
 				maps.user.set(res.userName, socket);
                 socket.user = res;
+                console.log(socket.user.userName);
 
                 socket.on('getPublicConfigs', (req)=>{configEvents.getPublicConfigs(req, socket)});
                 socket.on('savePublicConfig', (req)=>{configEvents.savePublicConfig(req, socket)});
@@ -91,11 +92,33 @@ function forwardCommand(req, socket) {
 	console.log('forward command:');
 	console.log(req);
 
-	if(!req || !req.pi || !req.pi.userName || !req.pi.piName || req.pi.userName != socket.user.userName) {
-		res.error = "invalid request";
-		socket.emit('command', res);
-		return;
-	}
+    //forward command error messages
+	if(!req) {
+        res.error = "no object was sent";
+        console.log(res.error);
+        socket.emit('command', res);
+        return;
+    } else if(!req.pi) {
+        res.error = "no pi object";
+        console.log(res.error);
+        socket.emit('command', res);
+        return;
+    } else if(!req.pi.userName) {
+        res.error = "no username in the pi object";
+        console.log(res.error);
+        socket.emit('command', res);
+        return;
+    } else if(!req.pi.piName) {
+        res.error = "no piName in the pi object";
+        console.log(res.error);
+        socket.emit('command', res);
+        return;
+    } else if(req.pi.userName != socket.user.userName) {
+        res.error = "sent and socket usernames do not match";
+        console.log(res.error);
+        socket.emit('command', res);
+        return;
+    }
 
     var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
 
