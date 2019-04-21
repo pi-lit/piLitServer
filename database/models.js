@@ -30,7 +30,8 @@ var Config = mongoose.model('config', new mongoose.Schema({
     configName: String,
     description: String,
     isPublic: Boolean,
-    rpArray: []
+    ledNum: Number,
+    commandArray: []
 }));
 
 module.exports = {
