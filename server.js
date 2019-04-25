@@ -14,6 +14,9 @@ var configEvents = require('./events/config.js');
 var maps = require('./events/maps.js');
 
 app.use('/', express.static(path.join(__dirname, 'public')));
+app.post('/voice', function (req, res) {
+    res.send('POST request to the homepage')
+});
 
 io.on('connection', function(socket) {
 	console.log('connection open');
