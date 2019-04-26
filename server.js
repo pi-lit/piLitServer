@@ -25,6 +25,19 @@ app.post('/voice', function (req, res) {
     for(let i=0;i<30;i++) {
         command.range.push(i);
     }
+    if(command.color == "red") {
+        command.r = 255;
+        command.g = 0;
+        command.b = 0;
+    } else if(command.color == "green") {
+        command.r = 0;
+        command.g = 255;
+        command.b = 0;
+    } else if(command.color == "blue") {
+        command.r = 0;
+        command.g = 0;
+        command.b = 255;
+    }
     commandArray.push(command);
     var object = {};
     object.config = {};

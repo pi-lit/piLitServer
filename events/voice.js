@@ -4,7 +4,7 @@ var maps = require('./maps.js');
 function forwardVoiceCommand(req) {
     var res = {};
 
-    console.log('forward command:');
+    console.log('forward voice command:');
     console.log(req);
 
     var piSocket = maps.pi.get("testuser2:testpi2");
