@@ -17,7 +17,7 @@ var maps = require('./events/maps.js');
 
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
-app.post('/voice', function (req, res) {
+/*app.post('/voice', function (req, res) {
     var commandArray = [];
     var command = req.body;
     command.range = [];
@@ -29,7 +29,7 @@ app.post('/voice', function (req, res) {
     object.config = {};
     object.config.commandArray = commandArray;
     forwardVoiceCommand(object);
-});
+});*/
 
 io.on('connection', function(socket) {
 	console.log('connection open');
@@ -49,7 +49,7 @@ io.on('connection', function(socket) {
     });
 });
 
-function forwardVoiceCommand(req) {
+/*function forwardVoiceCommand(req) {
     var res = {};
 
     console.log('forward command:');
@@ -62,7 +62,7 @@ function forwardVoiceCommand(req) {
         return;
     }
     piSocket.emit('command', req);
-}
+}*/
 
 //http.listen(8080);
 http.listen(process.env.PORT, process.env.IP);
