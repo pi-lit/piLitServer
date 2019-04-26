@@ -25,24 +25,26 @@ app.post('/voice', function (req, res) {
     for(let i=0;i<30;i++) {
         command.range.push(i);
     }
-    if(command.color == "red") {
-        let color = {};
-        color.r = 255;
-        color.g = 0;
-        color.b = 0;
-        command.color = color;
-    } else if(command.color == "green") {
-        let color = {};
-        color.r = 0;
-        color.g = 255;
-        color.b = 0;
-        command.color = color;
-    } else if(command.color == "blue") {
-        let color = {};
-        color.r = 0;
-        color.g = 0;
-        color.b = 255;
-        command.color = color;
+    if(command.color) {
+        if(command.color == "red") {
+            let color = {};
+            color.r = 255;
+            color.g = 0;
+            color.b = 0;
+            command.color = color;
+        } else if(command.color == "green") {
+            let color = {};
+            color.r = 0;
+            color.g = 255;
+            color.b = 0;
+            command.color = color;
+        } else if(command.color == "blue") {
+            let color = {};
+            color.r = 0;
+            color.g = 0;
+            color.b = 255;
+            command.color = color;
+        }
     }
     commandArray.push(command);
     var object = {};
