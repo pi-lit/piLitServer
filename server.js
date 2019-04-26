@@ -11,13 +11,14 @@ var ioClient = require('socket.io-client');
 var piEvents = require('./events/pi.js');
 var userEvents = require('./events/user.js');
 var configEvents = require('./events/config.js');
+var voiceEvents = require('./events/voice.js');
 
 var maps = require('./events/maps.js');
 
 
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
-/*app.post('/voice', function (req, res) {
+app.post('/voice', function (req, res) {
     var commandArray = [];
     var command = req.body;
     command.range = [];
@@ -28,8 +29,8 @@ app.use('/', express.static(path.join(__dirname, 'public')));
     var object = {};
     object.config = {};
     object.config.commandArray = commandArray;
-    forwardVoiceCommand(object);
-});*/
+    voiceEvents.forwardVoiceCommand(object);
+});
 
 io.on('connection', function(socket) {
 	console.log('connection open');
@@ -37,6 +38,7 @@ io.on('connection', function(socket) {
     socket.on('register', (req)=>{userEvents.register(req, socket)});
     socket.on('loginPi', (req)=>{piEvents.login(req, socket)});
     socket.on('login', (req)=>{userEvents.login(req, socket)});
+    socket.on('voiceCommand' (req)=>})
 
     socket.on('disconnect', function(req) {
         console.log("disconnected");
@@ -48,21 +50,6 @@ io.on('connection', function(socket) {
 			maps.pi.delete(socket.pi.userName+":"+socket.pi.piName);
     });
 });
-
-/*function forwardVoiceCommand(req) {
-    var res = {};
-
-    console.log('forward command:');
-    console.log(req);
-
-    var piSocket = maps.pi.get("testuser2:testpi2");
-
-    if(!piSocket) {
-        res.error = "device is not available";
-        return;
-    }
-    piSocket.emit('command', req);
-}*/
 
 //http.listen(8080);
 http.listen(process.env.PORT, process.env.IP);
