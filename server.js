@@ -18,9 +18,7 @@ var maps = require('./events/maps.js');
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
-    console.log("************POST REQUEST HIT************");
-    console.log(req.body);
-    console.log("**********POST REQUEST Done************");
+    console.log(forwardVoiceCommand(req.body));
 });
 
 io.on('connection', function(socket) {
@@ -40,6 +38,22 @@ io.on('connection', function(socket) {
 			maps.pi.delete(socket.pi.userName+":"+socket.pi.piName);
     });
 });
+
+function forwardVoiceCommand(req) {
+    var res = {};
+
+    console.log('forward command:');
+    console.log(req);
+
+    var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
+
+    if(!piSocket) {
+        res.error = "device is not available";
+        return;
+    }
+    piSocket.emit('command', req);
+    return res;
+}
 
 //http.listen(8080);
 http.listen(process.env.PORT, process.env.IP);
