@@ -16,7 +16,9 @@ var maps = require('./events/maps.js');
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
     console.log("************POST REQUEST HIT************");
-    console.log(req.params);
+    console.log(req.body);
+    console.log(req.commandArray);
+    console.log(req.requestText);
     console.log("**********POST REQUEST Done************");
 });
 
