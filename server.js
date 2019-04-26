@@ -38,7 +38,7 @@ io.on('connection', function(socket) {
     socket.on('register', (req)=>{userEvents.register(req, socket)});
     socket.on('loginPi', (req)=>{piEvents.login(req, socket)});
     socket.on('login', (req)=>{userEvents.login(req, socket)});
-    socket.on('voiceCommand' (req)=>})
+    socket.on('voiceCommand', (req)=>console.log(req)});
 
     socket.on('disconnect', function(req) {
         console.log("disconnected");
