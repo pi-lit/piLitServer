@@ -15,7 +15,7 @@ var maps = require('./events/maps.js');
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
-    console.log(res);
+    console.log(req);
 });
 
 io.on('connection', function(socket) {
