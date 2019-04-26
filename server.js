@@ -7,18 +7,19 @@ var path = require('path');
 var io = require('socket.io')(http);
 var ioClient = require('socket.io-client');
 
+
 var piEvents = require('./events/pi.js');
 var userEvents = require('./events/user.js');
 var configEvents = require('./events/config.js');
 
 var maps = require('./events/maps.js');
 
+
+app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
     console.log("************POST REQUEST HIT************");
     console.log(req.body);
-    console.log(req.commandArray);
-    console.log(req.requestText);
     console.log("**********POST REQUEST Done************");
 });
 
