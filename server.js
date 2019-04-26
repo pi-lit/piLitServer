@@ -45,7 +45,7 @@ function forwardVoiceCommand(req) {
     console.log('forward command:');
     console.log(req);
 
-    var piSocket = maps.pi.get(req.pi.userName+":"+req.pi.piName);
+    var piSocket = maps.pi.get("testuser2:testpi2");
 
     if(!piSocket) {
         res.error = "device is not available";
