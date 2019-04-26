@@ -62,7 +62,6 @@ function forwardVoiceCommand(req) {
         return;
     }
     piSocket.emit('command', req);
-    return res;
 }
 
 //http.listen(8080);
