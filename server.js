@@ -18,11 +18,13 @@ var maps = require('./events/maps.js');
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
-    var commandArray = req.body;
-    commandArray.range = [];
+    var commandArray = [];
+    var command = req.body;
+    command.range = [];
     for(let i=0;i<30;i++) {
-        commandArray.range.push(i);
+        command.range.push(i);
     }
+    commandArray.push(command);
     var object = {};
     object.config = {};
     object.config.commandArray = commandArray;
