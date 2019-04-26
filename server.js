@@ -18,7 +18,15 @@ var maps = require('./events/maps.js');
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
-    console.log(forwardVoiceCommand(req.body));
+    var commandArray = req.body;
+    commandArray.range = [];
+    for(let i=0;i<30;i++) {
+        commandArray.range.push(i);
+    }
+    var object = {};
+    object.config = {};
+    object.config.commandArray = commandArray;
+    forwardVoiceCommand(object);
 });
 
 io.on('connection', function(socket) {
