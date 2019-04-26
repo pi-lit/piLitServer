@@ -29,6 +29,16 @@ function register(req, socket) {
     	user.save(function(err){
     		if(err) res.error = "internal database error";
 
+			maps.user.set(req.userName, socket);
+			socket.user = req;
+			console.log(socket.user.userName);
+
+			socket.on('getPublicConfigs', (req)=>{configEvents.getPublicConfigs(req, socket)});
+			socket.on('savePublicConfig', (req)=>{configEvents.savePublicConfig(req, socket)});
+			socket.on('saveConfig', (req)=>{configEvents.saveConfig(req, socket)});
+			socket.on('deleteConfig', (req)=>{configEvents.deleteConfig(req, socket)});
+			socket.on('command', (req)=>{forwardCommand(req, socket)});
+
             socket.user = req;
             Object.assign(res, user._doc);
             socket.emit('register', res);

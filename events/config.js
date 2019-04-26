@@ -97,6 +97,7 @@ function saveConfig(req, socket) {
     }
 
     var config = new models.Config(req);
+    config.markModified('commandArray');
 
     models.Config.findOneAndUpdate({_id: config._id}, config, {new: true, upsert: true}, function(err, newConfig) {
         if(err) res.error = "internal database error";
