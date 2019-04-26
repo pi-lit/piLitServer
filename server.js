@@ -50,7 +50,14 @@ app.post('/voice', function (req, res) {
             color.g = 0;
             color.b = 0;
             command.color = color;
-	}
+	} else if(command.color == "white") {
+          let color = {};
+            color.r = 255;
+            color.g = 255;
+            color.b = 255;
+            command.color = color;
+        }
+
     }
     commandArray.push(command);
     var object = {};
