@@ -23,7 +23,8 @@ var RaspberryPi = mongoose.model('raspberry_pi', new mongoose.Schema({
     userName: String,
     piName: String,
     description: String,
-    ledNum: Number
+    ledNum: Number,
+    password: String
 }));
 
 var Config = mongoose.model('config', new mongoose.Schema({
