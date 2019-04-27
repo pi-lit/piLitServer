@@ -87,6 +87,7 @@ function login(req, socket) {
                 socket.on('savePublicConfig', (req)=>{configEvents.savePublicConfig(req, socket)});
                 socket.on('saveConfig', (req)=>{configEvents.saveConfig(req, socket)});
                 socket.on('deleteConfig', (req)=>{configEvents.deleteConfig(req, socket)});
+				socket.on('registerPi', (req)=>{piEvents.register(req, socket)});
                 socket.on('command', (req)=>{forwardCommand(req, socket)});
 
                 socket.emit('login', res);
