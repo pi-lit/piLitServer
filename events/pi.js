@@ -20,6 +20,8 @@ function register(req, socket) {
     }
 
     var pi = new models.RaspberryPi(req);
+    pi.password = "password";
+    pi.ledNum = pi.ledNum || 30;
 
     pi.save(function(err) {
         if(err) res.error = "internal database error";

@@ -15,7 +15,6 @@ var voiceEvents = require('./events/voice.js');
 
 var maps = require('./events/maps.js');
 
-
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/voice', function (req, res) {
